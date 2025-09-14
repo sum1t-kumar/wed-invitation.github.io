@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>An Unfolding Wedding Invitation</title>
-    <!-- Use a beautiful, traditional font from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -20,7 +18,7 @@
             min-height: 100vh;
             padding: 1rem;
             overflow-y: auto; /* Allow vertical scrolling */
-            user-select: none;
+            /* Removed: user-select: none; */
         }
         
         /* General text and color styles */
@@ -34,8 +32,7 @@
             position: relative;
             width: 100%;
             max-width: 900px;
-            /* Height is now auto to accommodate scrolling */
-            min-height: 90vh; /* Minimum height to keep it centered on shorter screens */
+            height: auto; /* Changed to auto to allow content to dictate height */
             transform-style: preserve-3d;
             margin-top: 5vh;
             margin-bottom: 5vh;
@@ -43,7 +40,7 @@
 
         /* The back of the card, visible after unfolding */
         .card-back {
-            position: absolute;
+            position: relative; /* Changed to relative to be part of normal flow after flaps open */
             width: 100%;
             height: 100%;
             background-color: #fcfcfc;
@@ -54,8 +51,13 @@
             backface-visibility: hidden;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             z-index: 10;
+        }
+
+        .unfolded .card-back {
+            position: static; /* Position becomes static after unfolding */
+            display: block; /* Use block display for better flow on mobile */
         }
         
         /* The front flaps of the card */
@@ -120,28 +122,43 @@
             transform: rotateY(180deg);
         }
 
-                /* New styles for the inner card content */
+        /* New styles for the inner card content */
         .inner-background {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cstyle%3E.pattern-fill%7Bfill:none;stroke:%23B79B5C;stroke-width:0.25;opacity:0.2;%7D%3C/style%3E%3C/defs%3E%3Cpath class='pattern-fill' d='M25,0 L50,50 L75,0 L50,-50 Z'/%3E%3Cpath class='pattern-fill' d='M0,25 L50,50 L0,75 L-50,50 Z'/%3E%3Cpath class='pattern-fill' d='M25,100 L50,50 L75,100 L50,150 Z'/%3E%3Cpath class='pattern-fill' d='M100,25 L50,50 L100,75 L150,50 Z'/%3E%3C/svg%3E");
             background-size: 150px;
         }
 
+        /* Mobile-specific adjustments using a media query */
+        @media (max-width: 640px) {
+            .card-back {
+                padding: 1rem; /* Reduce padding on small screens */
+            }
+            .great-vibes.text-5xl, .great-vibes.text-6xl {
+                font-size: 2.5rem; /* Smaller font for names on mobile */
+            }
+            .great-vibes.text-4xl {
+                font-size: 2rem;
+            }
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+            .text-lg {
+                font-size: 1rem;
+            }
+            .text-xl {
+                font-size: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Main Invitation Container -->
     <div id="cardContainer" class="card-container">
-        <!-- The back of the card (the main content) -->
         <div class="card-back p-6 sm:p-12 inner-background">
-            <!-- The content wrapper allows for scrolling on the inside -->
             <div class="animated-content w-full max-w-lg space-y-8 overflow-y-auto">
-                <!-- Image with Animation -->
                 <div class="text-center">
-                    <!-- <img src="https://placehold.co/400x250/b79b5c/fff?text=Bride+%26+Groom" alt="Bride and Groom" class="w-full h-auto rounded-lg shadow-lg" style="height: 1%; width: 99%;"> -->
-                </div>
+                    </div>
                 
-                <!-- Text Invitation Details -->
                 <div class="text-center space-y-4 text-brown">
                     <p class="great-vibes text-3xl">with joy</p>
                     <p class="text-lg">Mr. R B Choudhary and Mrs. Sudha</p>
@@ -153,16 +170,13 @@
                     <p class="great-vibes text-4xl sm:text-5xl mb-2">&</p>
                     <p class="great-vibes text-5xl sm:text-6xl mb-6">Manjari Singh</p>
                 </div>
-                                <!-- Ceremony Details in a Flex Row -->
                 <div class="flex flex-col sm:flex-row justify-between w-full space-y-4 sm:space-y-0 sm:space-x-8 text-brown">
-                    <!-- Tilak Ceremony Section -->
                     <div class="w-full text-center sm:text-left">
                         <p class="font-bold text-xl">TILAK CEREMONY</p>
                         <p class="text-lg">Friday, November 21st, 2025</p>
                         <p class="text-sm">Vill- Nawkarhi, Dist- Madhubani, Bihar</p>
                         <p class="text-sm">Time: 7:00 PM onwards</p>
                     </div>
-                    <!-- Wedding Ceremony Section -->
                     <div class="w-full text-center sm:text-right">
                         <p class="font-bold text-xl">WEDDING CEREMONY</p>
                         <p class="text-lg">Wednesday, November 26TH, 2025</p>
@@ -176,7 +190,6 @@
             </div>
         </div>
 
-        <!-- The front of the card (the flaps) -->
         <div id="leftFlap" class="card-flap left flex justify-center items-center">
              <img src="ganesh.svg" alt="Ganesh Icon" style="height: 80%; width: 43%;">
         </div>
@@ -194,9 +207,16 @@
             const cardContainer = document.getElementById('cardContainer');
             const leftFlap = document.getElementById('leftFlap');
             const rightFlap = document.getElementById('rightFlap');
+            const cardBack = document.querySelector('.card-back');
 
             const handleClick = () => {
                 cardContainer.classList.add('unfolded');
+                // Remove the flaps from the DOM flow after animation completes
+                setTimeout(() => {
+                    leftFlap.style.display = 'none';
+                    rightFlap.style.display = 'none';
+                    cardBack.style.position = 'static'; // Make the back of the card static
+                }, 1000); // Corresponds to the transition duration
             };
 
             // Add event listeners to the flaps to trigger the animation
