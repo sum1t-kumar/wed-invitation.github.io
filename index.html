@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Unfolding Wedding Invitation</title>
+    <!-- Use a beautiful, traditional font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #791c1c; /* Deep red background */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to the top to allow scrolling */
+            min-height: 100vh;
+            padding: 1rem;
+            overflow-y: auto; /* Allow vertical scrolling */
+            user-select: none;
+        }
+        
+        /* General text and color styles */
+        .text-brown { color: #5c3b1c; }
+        .text-gold { color: #b79b5c; }
+        .text-dark-red { color: #791c1c; }
+        .great-vibes { font-family: 'Great Vibes', cursive; }
+
+        /* --- Card Container and Animation --- */
+        .card-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            /* Height is now auto to accommodate scrolling */
+            min-height: 90vh; /* Minimum height to keep it centered on shorter screens */
+            transform-style: preserve-3d;
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+        }
+
+        /* The back of the card, visible after unfolding */
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #fcfcfc;
+            border: 2px solid #b79b5c;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 1rem;
+            overflow: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        /* The front flaps of the card */
+        .card-flap {
+            position: absolute;
+            width: 50.1%; /* Slightly more than 50% to prevent seam */
+            height: 100%;
+            top: 0;
+            background-color: #791c1c; /* The front color */
+            transition: transform 1s ease-in-out;
+            backface-visibility: hidden;
+            border-top: 2px solid #b79b5c;
+            border-bottom: 2px solid #b79b5c;
+            border-right: 2px solid #b79b5c;
+            z-index: 20;
+            cursor: pointer;
+        }
+
+        .card-flap.left {
+            left: -0.1%; /* Align left and cover seam */
+            transform-origin: 100% 50%;
+        }
+
+        .card-flap.right {
+            left: 50%;
+            transform-origin: 0% 50%;
+            border-right: none; /* No border on the right flap's outer edge */
+            border-left: 2px solid #b79b5c;
+        }
+
+        /* Front cover content and styling */
+        .cover-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #b79b5c;
+            text-align: center;
+            padding: 1rem;
+            user-select: none;
+        }
+
+        /* Animated content that appears after opening */
+        .animated-content {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.75s ease 0.75s, transform 0.75s ease 0.75s;
+        }
+        
+        .unfolded .animated-content {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* The class added by JS to trigger the animation */
+        .unfolded .card-flap.left {
+            transform: rotateY(-180deg);
+        }
+
+        .unfolded .card-flap.right {
+            transform: rotateY(180deg);
+        }
+
+                /* New styles for the inner card content */
+        .inner-background {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cstyle%3E.pattern-fill%7Bfill:none;stroke:%23B79B5C;stroke-width:0.25;opacity:0.2;%7D%3C/style%3E%3C/defs%3E%3Cpath class='pattern-fill' d='M25,0 L50,50 L75,0 L50,-50 Z'/%3E%3Cpath class='pattern-fill' d='M0,25 L50,50 L0,75 L-50,50 Z'/%3E%3Cpath class='pattern-fill' d='M25,100 L50,50 L75,100 L50,150 Z'/%3E%3Cpath class='pattern-fill' d='M100,25 L50,50 L100,75 L150,50 Z'/%3E%3C/svg%3E");
+            background-size: 150px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Main Invitation Container -->
+    <div id="cardContainer" class="card-container">
+        <!-- The back of the card (the main content) -->
+        <div class="card-back p-6 sm:p-12 inner-background">
+            <!-- The content wrapper allows for scrolling on the inside -->
+            <div class="animated-content w-full max-w-lg space-y-8 overflow-y-auto">
+                <!-- Image with Animation -->
+                <div class="text-center">
+                    <!-- <img src="https://placehold.co/400x250/b79b5c/fff?text=Bride+%26+Groom" alt="Bride and Groom" class="w-full h-auto rounded-lg shadow-lg" style="height: 1%; width: 99%;"> -->
+                </div>
+                
+                <!-- Text Invitation Details -->
+                <div class="text-center space-y-4 text-brown">
+                    <p class="great-vibes text-3xl">with joy</p>
+                    <p class="text-lg">Mr. R B Choudhary and Mrs. Sudha</p>
+                    <p class="text-lg">cordially invite you to attend the</p>
+                    <p class="text-lg">WEDDING OF THEIR SON</p>
+                </div>
+                <div class="text-center text-dark-red">
+                    <p class="great-vibes text-5xl sm:text-6xl mb-2">Sumit Kumar</p>
+                    <p class="great-vibes text-4xl sm:text-5xl mb-2">&</p>
+                    <p class="great-vibes text-5xl sm:text-6xl mb-6">Manjari Singh</p>
+                </div>
+                                <!-- Ceremony Details in a Flex Row -->
+                <div class="flex flex-col sm:flex-row justify-between w-full space-y-4 sm:space-y-0 sm:space-x-8 text-brown">
+                    <!-- Tilak Ceremony Section -->
+                    <div class="w-full text-center sm:text-left">
+                        <p class="font-bold text-xl">TILAK CEREMONY</p>
+                        <p class="text-lg">Friday, November 21st, 2025</p>
+                        <p class="text-sm">Vill- Nawkarhi, Dist- Madhubani, Bihar</p>
+                        <p class="text-sm">Time: 7:00 PM onwards</p>
+                    </div>
+                    <!-- Wedding Ceremony Section -->
+                    <div class="w-full text-center sm:text-right">
+                        <p class="font-bold text-xl">WEDDING CEREMONY</p>
+                        <p class="text-lg">Wednesday, November 26TH, 2025</p>
+                        <p class="text-sm">Venue: GAUTAM GARDEN LAWN</p>
+                        <p class="text-sm">Azamgarh - Varanasi Rd, Azamgarh, Uttar Pradesh, India</p>
+                    </div>
+                </div>
+                <div class="text-center text-brown space-y-4">
+                    <p class="font-bold text-lg mt-6">RECEPTION TO FOLLOW</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- The front of the card (the flaps) -->
+        <div id="leftFlap" class="card-flap left flex justify-center items-center">
+             <img src="ganesh.svg" alt="Ganesh Icon" style="height: 80%; width: 43%;">
+        </div>
+        <div id="rightFlap" class="card-flap right">
+            <div class="cover-content great-vibes space-y-4">
+                <h1 class="text-gold text-4xl">Invitation</h1>
+                <h2 class="text-gold great-vibes text-5xl">Sumit & Manjari</h2>
+                <p class="text-sm font-sans mt-4 text-center">Tap to unravel this card</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cardContainer = document.getElementById('cardContainer');
+            const leftFlap = document.getElementById('leftFlap');
+            const rightFlap = document.getElementById('rightFlap');
+
+            const handleClick = () => {
+                cardContainer.classList.add('unfolded');
+            };
+
+            // Add event listeners to the flaps to trigger the animation
+            leftFlap.addEventListener('click', handleClick);
+            rightFlap.addEventListener('click', handleClick);
+            
+            // Also add a listener to the whole container, in case the user clicks the center
+            cardContainer.addEventListener('click', handleClick);
+        });
+    </script>
+</body>
+</html>
