@@ -14,11 +14,11 @@
             background-color: #791c1c; /* Deep red background */
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to the top to allow scrolling */
+            align-items: center; /* Changed from flex-start to center for vertical centering */
             min-height: 100vh;
             padding: 1rem;
-            overflow-y: auto; /* Allow vertical scrolling */
-            /* Removed: user-select: none; */
+            overflow-y: auto;
+            user-select: none;
         }
         
         /* General text and color styles */
@@ -32,7 +32,8 @@
             position: relative;
             width: 100%;
             max-width: 900px;
-            height: auto; /* Changed to auto to allow content to dictate height */
+            /* Height is now auto to accommodate scrolling */
+            height: auto;
             transform-style: preserve-3d;
             margin-top: 5vh;
             margin-bottom: 5vh;
@@ -40,7 +41,7 @@
 
         /* The back of the card, visible after unfolding */
         .card-back {
-            position: relative; /* Changed to relative to be part of normal flow after flaps open */
+            position: relative; /* Set to relative */
             width: 100%;
             height: 100%;
             background-color: #fcfcfc;
@@ -53,11 +54,6 @@
             justify-content: center;
             align-items: flex-start;
             z-index: 10;
-        }
-
-        .unfolded .card-back {
-            position: static; /* Position becomes static after unfolding */
-            display: block; /* Use block display for better flow on mobile */
         }
         
         /* The front flaps of the card */
@@ -128,10 +124,10 @@
             background-size: 150px;
         }
 
-        /* Mobile-specific adjustments using a media query */
+        /* Mobile-specific adjustments */
         @media (max-width: 640px) {
             .card-back {
-                padding: 1rem; /* Reduce padding on small screens */
+                padding: 1rem; /* Reduced padding on small screens */
             }
             .great-vibes.text-5xl, .great-vibes.text-6xl {
                 font-size: 2.5rem; /* Smaller font for names on mobile */
@@ -148,6 +144,13 @@
             .text-xl {
                 font-size: 1.25rem;
             }
+            .flex-col {
+                flex-direction: column;
+            }
+        }
+
+        .unfolded .card-back {
+            position: static; /* After unfolding, the card back becomes part of the normal document flow */
         }
     </style>
 </head>
@@ -170,7 +173,7 @@
                     <p class="great-vibes text-4xl sm:text-5xl mb-2">&</p>
                     <p class="great-vibes text-5xl sm:text-6xl mb-6">Manjari Singh</p>
                 </div>
-                <div class="flex flex-col sm:flex-row justify-between w-full space-y-4 sm:space-y-0 sm:space-x-8 text-brown">
+                                <div class="flex flex-col sm:flex-row justify-between w-full space-y-4 sm:space-y-0 sm:space-x-8 text-brown">
                     <div class="w-full text-center sm:text-left">
                         <p class="font-bold text-xl">TILAK CEREMONY</p>
                         <p class="text-lg">Friday, November 21st, 2025</p>
@@ -194,10 +197,10 @@
              <img src="ganesh.svg" alt="Ganesh Icon" style="height: 80%; width: 43%;">
         </div>
         <div id="rightFlap" class="card-flap right">
-            <div class="cover-content great-vibes space-y-4">
+            <div class="cover-content great-vibes space-y-4 text-center">
                 <h1 class="text-gold text-4xl">Invitation</h1>
                 <h2 class="text-gold great-vibes text-5xl">Sumit & Manjari</h2>
-                <p class="text-sm font-sans mt-4 text-center">Tap to unravel this card</p>
+                <p class="text-sm font-sans mt-4">Tap to unravel this card</p>
             </div>
         </div>
     </div>
@@ -207,16 +210,9 @@
             const cardContainer = document.getElementById('cardContainer');
             const leftFlap = document.getElementById('leftFlap');
             const rightFlap = document.getElementById('rightFlap');
-            const cardBack = document.querySelector('.card-back');
 
             const handleClick = () => {
                 cardContainer.classList.add('unfolded');
-                // Remove the flaps from the DOM flow after animation completes
-                setTimeout(() => {
-                    leftFlap.style.display = 'none';
-                    rightFlap.style.display = 'none';
-                    cardBack.style.position = 'static'; // Make the back of the card static
-                }, 1000); // Corresponds to the transition duration
             };
 
             // Add event listeners to the flaps to trigger the animation
