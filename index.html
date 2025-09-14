@@ -147,6 +147,24 @@
             .flex-col {
                 flex-direction: column;
             }
+            
+            /* Cover page specific mobile styles */
+            .cover-content .text-4xl {
+                font-size: 2.5rem; /* Make 'Invitation' text larger */
+            }
+            .cover-content .text-5xl {
+                font-size: 2.5rem; /* Set a consistent size for names on mobile */
+            }
+            .cover-content .names {
+                display: flex;
+                flex-direction: column; /* Stack names on separate lines */
+                align-items: center;
+            }
+            /* Style for the Ganesh image */
+            .card-flap.left img {
+                height: 60%; /* Adjusted height to be larger */
+                width: auto; /* Allow width to scale with height */
+            }
         }
 
         .unfolded .card-back {
@@ -199,7 +217,11 @@
         <div id="rightFlap" class="card-flap right">
             <div class="cover-content great-vibes space-y-4 text-center">
                 <h1 class="text-gold text-4xl">Invitation</h1>
-                <h2 class="text-gold great-vibes text-5xl">Sumit & Manjari</h2>
+                <div class="names">
+                    <h2 class="text-gold great-vibes text-5xl">Sumit</h2>
+                    <h2 class="text-gold great-vibes text-4xl">&</h2>
+                    <h2 class="text-gold great-vibes text-5xl">Manjari</h2>
+                </div>
                 <p class="text-sm font-sans mt-4">Tap to unravel this card</p>
             </div>
         </div>
