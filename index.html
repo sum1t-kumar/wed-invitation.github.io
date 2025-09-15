@@ -63,7 +63,7 @@
             height: 100%;
             top: 0;
             background-color: #791c1c; /* The front color */
-            transition: transform 1s ease-in-out;
+            transition: transform 2s ease-in-out; /* Changed to 2s */
             backface-visibility: hidden;
             border-top: 2px solid #b79b5c;
             border-bottom: 2px solid #b79b5c;
@@ -109,7 +109,7 @@
             transform: scale(1);
         }
 
-        /* The class added by JS to trigger the animation */
+        /* The class added by JS to trigger the opening animation */
         .unfolded .card-flap.left {
             transform: rotateY(-180deg);
         }
@@ -123,7 +123,44 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cstyle%3E.pattern-fill%7Bfill:none;stroke:%23B79B5C;stroke-width:0.25;opacity:0.2;%7D%3C/style%3E%3C/defs%3E%3Cpath class='pattern-fill' d='M25,0 L50,50 L75,0 L50,-50 Z'/%3E%3Cpath class='pattern-fill' d='M0,25 L50,50 L0,75 L-50,50 Z'/%3E%3Cpath class='pattern-fill' d='M25,100 L50,50 L75,100 L50,150 Z'/%3E%3Cpath class='pattern-fill' d='M100,25 L50,50 L100,75 L150,50 Z'/%3E%3C/svg%3E");
             background-size: 150px;
         }
+        
+        /* Style for the closing page */
+        .closing-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fcfcfc;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 10;
+            visibility: hidden;
+            border-radius: 1rem;
+        }
 
+        .show-closing-page .closing-page {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .show-closing-page .main-content {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* The class added by JS to trigger the closing animation */
+        .is-closing .card-flap.left {
+            transform: rotateY(0deg);
+        }
+        .is-closing .card-flap.right {
+            transform: rotateY(0deg);
+        }
+        
         /* Mobile-specific adjustments */
         @media (max-width: 640px) {
             .card-back {
@@ -176,7 +213,7 @@
 
     <div id="cardContainer" class="card-container">
         <div class="card-back p-6 sm:p-12 inner-background">
-            <div class="animated-content w-full max-w-lg space-y-8 overflow-y-auto">
+            <div id="mainContent" class="animated-content w-full max-w-lg space-y-8 overflow-y-auto main-content">
                 <div class="text-center">
                     </div>
                 
@@ -196,17 +233,22 @@
                         <p class="font-bold text-xl">TILAK CEREMONY</p>
                         <p class="text-lg">Friday, November 21st, 2025</p>
                         <p class="text-sm">Vill- Nawkarhi, Dist- Madhubani, Bihar</p>
+                        <p class="text-sm">Time: 7:00 PM onwards</p>
                     </div>
                     <div class="w-full text-center sm:text-right">
                         <p class="font-bold text-xl">WEDDING CEREMONY</p>
-                        <p class="text-lg">Wednesday, November 26th, 2025</p>
+                        <p class="text-lg">Wednesday, November 26TH, 2025</p>
                         <p class="text-sm">Venue: GAUTAM GARDEN LAWN</p>
-                        <p class="text-sm">Azamgarh - Varanasi Rd, Varanasi</p>
+                        <p class="text-sm">Azamgarh - Varanasi Rd, Azamgarh, Uttar Pradesh, India</p>
                     </div>
                 </div>
                 <div class="text-center text-brown space-y-4">
                     <p class="font-bold text-lg mt-6">RECEPTION TO FOLLOW</p>
                 </div>
+            </div>
+            
+            <div id="closingPage" class="closing-page animated-content inner-background">
+                 <h2 class="great-vibes text-dark-red text-6xl text-center">Thank you!</h2>
             </div>
         </div>
 
@@ -231,9 +273,33 @@
             const cardContainer = document.getElementById('cardContainer');
             const leftFlap = document.getElementById('leftFlap');
             const rightFlap = document.getElementById('rightFlap');
+            const mainContent = document.getElementById('mainContent');
+            const closingPage = document.getElementById('closingPage');
 
             const handleClick = () => {
+                // If the card is already opened, do nothing
+                if (cardContainer.classList.contains('unfolded')) {
+                    return;
+                }
+
+                // 1. Unfold the card (2-second transition)
                 cardContainer.classList.add('unfolded');
+                
+                // 2. Hide main content and show closing page after 2 seconds
+                setTimeout(() => {
+                    cardContainer.classList.add('show-closing-page');
+                }, 6000); 
+
+                // 3. Start the closing animation after 5 seconds (2 seconds for opening + 3 for content viewing)
+                setTimeout(() => {
+                    cardContainer.classList.add('is-closing');
+                }, 7000); 
+                
+                // 4. Reset the card after the closing animation is complete (at 7 seconds)
+                setTimeout(() => {
+                    location.reload();
+                    // cardContainer.classList.remove('unfolded', 'show-closing-page', 'is-closing');
+                }, 7009); 
             };
 
             // Add event listeners to the flaps to trigger the animation
