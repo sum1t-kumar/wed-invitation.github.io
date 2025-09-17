@@ -96,6 +96,15 @@
             padding: 1rem;
             user-select: none;
         }
+        
+        /* Style for the countdowns for precise alignment */
+        .countdown-style {
+            position: absolute;
+            bottom: 2.5rem; /* Position from the bottom */
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
 
         /* Animated content that appears after opening */
         .animated-content {
@@ -202,6 +211,9 @@
                 height: 60%; /* Adjusted height to be larger */
                 width: auto; /* Allow width to scale with height */
             }
+            .countdown-style {
+                bottom: 1.5rem; /* Adjust position for mobile */
+            }
         }
 
         .unfolded .card-back {
@@ -251,24 +263,69 @@
             </div>
         </div>
 
-        <div id="leftFlap" class="card-flap left flex justify-center items-center">
-             <img src="ganesh.svg" alt="Ganesh Icon" style="height: 80%; width: 43%;">
+        <div id="leftFlap" class="card-flap left">
+             <div class="cover-content">
+                <img src="ganesh.svg" alt="Ganesh Icon" class="mx-auto" style="height: 50%; width: auto;">
+             </div>
+             <div id="engagementCountdown" class="countdown-style text-gold px-1"></div>
         </div>
         <div id="rightFlap" class="card-flap right">
+            
             <div class="cover-content great-vibes space-y-4 text-center">
+                
                 <h1 class="text-gold text-4xl">Invitation</h1>
+                
                 <div class="names">
                     <h2 class="text-gold great-vibes text-5xl">Sumit</h2>
                     <h2 class="text-gold great-vibes text-4xl">&</h2>
                     <h2 class="text-gold great-vibes text-5xl">Manjari</h2>
                 </div>
-                <p class="text-sm font-sans mt-4">Tap to unravel this card</p>
             </div>
+            
+            <div id="weddingCountdown" class="countdown-style text-gold px-1"></div>
         </div>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Countdown Logic ---
+            const engagementEl = document.getElementById('engagementCountdown');
+            const weddingEl = document.getElementById('weddingCountdown');
+
+            const engagementDate = new Date('2025-10-11T00:00:00');
+            const weddingDate = new Date('2025-11-26T00:00:00');
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Normalize today's date to midnight for accurate day difference
+
+            // Engagement Countdown
+            if (engagementEl) {
+                const timeDiffEngagement = engagementDate.getTime() - today.getTime();
+                const daysLeftEngagement = Math.ceil(timeDiffEngagement / (1000 * 3600 * 24));
+
+                if (daysLeftEngagement > 1) {
+                    engagementEl.innerHTML = `<span class="text-9xl font-bold block">${daysLeftEngagement}</span><span class="text-xs">days until 💍<br>Engagement</span>`;
+                } else if (daysLeftEngagement === 1) {
+                    engagementEl.innerHTML = `<span class="text-5xl font-bold block">1</span><span class="text-xs">day until 💍<br>Engagement</span>`;
+                } else {
+                    engagementEl.innerHTML = `<span class="text-2xl">The Engagement day<br>is here!</span>`;
+                }
+            }
+
+            // Wedding Countdown
+            if (weddingEl) {
+                const timeDiffWedding = weddingDate.getTime() - today.getTime();
+                const daysLeftWedding = Math.ceil(timeDiffWedding / (1000 * 3600 * 24));
+
+                if (daysLeftWedding > 1) {
+                    weddingEl.innerHTML = `<span class="text-9xl font-bold block">${daysLeftWedding}</span><span class="text-xs">days until the<br>Wedding</span>`;
+                } else if (daysLeftWedding === 1) {
+                    weddingEl.innerHTML = `<span class="text-5xl font-bold block">1</span><span class="text-xs">day until the<br>Wedding</span>`;
+                } else {
+                    weddingEl.innerHTML = `<span class="text-2xl">Our Wedding day<br>is here!</span>`;
+                }
+            }
+
+            // --- Existing Card Logic ---
             const cardContainer = document.getElementById('cardContainer');
             const leftFlap = document.getElementById('leftFlap');
             const rightFlap = document.getElementById('rightFlap');
