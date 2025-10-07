@@ -292,10 +292,27 @@
             const engagementEl = document.getElementById('engagementCountdown');
             const weddingEl = document.getElementById('weddingCountdown');
 
-            const engagementDate = new Date('2025-10-11T00:00:00');
-            const weddingDate = new Date('2025-11-26T00:00:00');
+            var engagementDate = new Date('2025-10-11T15:37:25');
+            const weddingDate = new Date('2025-11-26T23:50:00');
             const today = new Date();
             today.setHours(0, 0, 0, 0); // Normalize today's date to midnight for accurate day difference
+    
+
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+                
+            // Find the distance between now and the count down date
+            var distance = engagementDate.getTime() - now;
+                
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
 
             // Engagement Countdown
             if (engagementEl) {
@@ -303,27 +320,42 @@
                 const daysLeftEngagement = Math.ceil(timeDiffEngagement / (1000 * 3600 * 24));
 
                 if (daysLeftEngagement > 1) {
-                    engagementEl.innerHTML = `<span class="text-7xl font-bold block">${daysLeftEngagement}</span><span class="text-xs">days until 💍<br>Engagement</span>`;
+                    engagementEl.innerHTML = `<span class="text-7xl font-bold block">${days}d ${hours}h ${minutes}m ${seconds}s</span><span class="text-xs">until 💍<br>Engagement</span>`;
                 } else if (daysLeftEngagement === 1) {
-                    engagementEl.innerHTML = `<span class="text-5xl font-bold block">1</span><span class="text-xs">day until 💍<br>Engagement</span>`;
+                    engagementEl.innerHTML = `<span class="text-5xl font-bold block">${hours}h ${minutes}m ${seconds}s</span><span class="text-xs">until 💍<br>Engagement</span>`;
                 } else {
                     engagementEl.innerHTML = `<span class="text-2xl">💍<br>Engagged!</span>`;
                 }
             }
+            
+            
+
+                        // Find the distance between now and the count down date
+            var wdistance = weddingDate.getTime() - now;
+                
+            // Time calculations for days, hours, minutes and seconds
+            var wdays = Math.floor(wdistance / (1000 * 60 * 60 * 24));
+            var whours = Math.floor((wdistance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var wminutes = Math.floor((wdistance % (1000 * 60 * 60)) / (1000 * 60));
+            var wseconds = Math.floor((wdistance % (1000 * 60)) / 1000);
 
             // Wedding Countdown
             if (weddingEl) {
                 const timeDiffWedding = weddingDate.getTime() - today.getTime();
                 const daysLeftWedding = Math.ceil(timeDiffWedding / (1000 * 3600 * 24));
 
-                if (daysLeftWedding > 1) {
-                    weddingEl.innerHTML = `<span class="text-7xl font-bold block">${daysLeftWedding}</span><span class="text-xs">days until the<br>Wedding</span>`;
+                if (daysLeftWedding > 5) {
+                    weddingEl.innerHTML = `<span class="text-7xl font-bold block">${wdays}</span><span class="text-xs">days until the<br>Wedding</span>`;
+                }else if (daysLeftWedding < 4 && daysLeftWedding > 1) {
+                    weddingEl.innerHTML = `<span class="text-5xl font-bold block">${wdays}d ${whours}h ${wminutes}m ${wseconds}s</span><span class="text-xs">until the<br>Wedding</span>`;
                 } else if (daysLeftWedding === 1) {
-                    weddingEl.innerHTML = `<span class="text-5xl font-bold block">1</span><span class="text-xs">day until the<br>Wedding</span>`;
+                    weddingEl.innerHTML = `<span class="text-5xl font-bold block">${whours}h ${wminutes}m ${wseconds}s</span><span class="text-xs">until the<br>Wedding</span>`;
                 } else {
                     weddingEl.innerHTML = `<span class="text-2xl">Our Wedding day<br>is here!</span>`;
                 }
             }
+
+            })
 
             // --- Existing Card Logic ---
             const cardContainer = document.getElementById('cardContainer');
