@@ -320,7 +320,7 @@
                 const daysLeftEngagement = Math.ceil(timeDiffEngagement / (1000 * 3600 * 24));
 
                 if (daysLeftEngagement > 1) {
-                    engagementEl.innerHTML = `<span class="text-7xl font-bold block">${days}d ${hours}h ${minutes}m ${seconds}s</span><span class="text-xs">until 💍<br>Engagement</span>`;
+                    engagementEl.innerHTML = `<span class="text-5xl font-bold block">${days}d ${hours}h ${minutes}m ${seconds}s</span><span class="text-xs">until 💍<br>Engagement</span>`;
                 } else if (daysLeftEngagement === 1) {
                     engagementEl.innerHTML = `<span class="text-5xl font-bold block">${hours}h ${minutes}m ${seconds}s</span><span class="text-xs">until 💍<br>Engagement</span>`;
                 } else {
@@ -345,7 +345,7 @@
                 const daysLeftWedding = Math.ceil(timeDiffWedding / (1000 * 3600 * 24));
 
                 if (daysLeftWedding > 5) {
-                    weddingEl.innerHTML = `<span class="text-7xl font-bold block">${wdays}</span><span class="text-xs">days until the<br>Wedding</span>`;
+                    weddingEl.innerHTML = `<span class="text-5xl font-bold block">${wdays}</span><span class="text-xs">days until the<br>Wedding</span>`;
                 }else if (daysLeftWedding < 4 && daysLeftWedding > 1) {
                     weddingEl.innerHTML = `<span class="text-5xl font-bold block">${wdays}d ${whours}h ${wminutes}m ${wseconds}s</span><span class="text-xs">until the<br>Wedding</span>`;
                 } else if (daysLeftWedding === 1) {
